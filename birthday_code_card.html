@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Happy Birthday — Poetic Love Page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fff5f8;
+        --accent: #ff4d88;
+        --muted: #6b6b6b;
+        --card: #ffffff;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+
+      body {
+        background: linear-gradient(180deg, var(--bg) 0%, #fff 60%);
+        color: #111;
+        overflow-x: hidden;
+      }
+
+      /* HERO SECTION */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        padding: 4rem 1rem;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 77, 136, 0.06),
+          rgba(255, 77, 136, 0.02)
+        );
+      }
+
+      .hero-content {
+        z-index: 3;
+        max-width: 980px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.02;
+      }
+
+      p.lead {
+        font-size: 1.125rem;
+        color: var(--muted);
+      }
+
+      /* FLOATING HEARTS */
+      .hearts {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .heart {
+        position: absolute;
+        font-size: 18px;
+        opacity: 0.9;
+        animation: floatUp linear infinite;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(30vh) scale(0.9);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-20vh) scale(1.1);
+          opacity: 0;
+        }
+      }
+
+      section {
+        padding: 6rem 1rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.25rem;
+        text-align: center;
+      }
+
+      /* MEMORY PANELS */
+      .panel {
+        position: relative;
+        height: 100vh;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      .panel .panel-caption {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.45), transparent);
+        color: white;
+        padding: 2rem;
+        width: 90%;
+      }
+
+      /* SOLO & CANDID GRID */
+      .masonry {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .masonry-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(13, 13, 13, 0.08);
+        background: var(--card);
+        transition: transform 0.3s ease;
+        text-align: center;
+      }
+
+      .masonry-item:hover {
+        transform: translateY(-5px);
+      }
+
+      .masonry-item img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        object-position: top center; /* fixed cropping */
+        display: block;
+        border-radius: 12px;
+        aspect-ratio: 4 / 5;
+      }
+
+      /* Carousel fix */
+      .carousel-item img {
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      /* ===== CAROUSEL ARROW FIX ===== */
+      .carousel-control-prev-icon,
+      .carousel-control-next-icon {
+        background-color: rgba(255, 255, 255, 0.85); /* visible white */
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        background-size: 60%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .carousel-control-prev-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0L1 4l4.25 4V0z'/%3e%3c/svg%3e");
+      }
+
+      .carousel-control-next-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0L7 4l-4.25 4V0z'/%3e%3c/svg%3e");
+      }
+
+      .carousel-control-prev,
+      .carousel-control-next {
+        width: 10%;
+        opacity: 0.9;
+        transition: opacity 0.2s ease;
+      }
+
+      .carousel-control-prev:hover,
+      .carousel-control-next:hover {
+        opacity: 1;
+      }
+
+      /* POETIC TEXT */
+      .poetic {
+        font-size: 1.2rem;
+        font-style: italic;
+        color: var(--accent);
+        text-align: center;
+        margin: 1.5rem 0;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.8s ease-in-out;
+        z-index: 10;
+        position: relative;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      }
+
+      .poetic.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .masonry-item .poetic {
+        opacity: 1 !important;
+        transform: none !important;
+        margin-top: 0.75rem;
+        color: var(--accent);
+        background: rgba(255, 255, 255, 0.85);
+        padding: 0.3rem 0.75rem;
+        border-radius: 8px;
+        display: inline-block;
+        z-index: 2;
+      }
+
+      footer {
+        padding: 3rem 1rem;
+        text-align: center;
+        color: var(--muted);
+      }
+      /* ===== WISHES SECTION ===== */
+      .text-accent {
+        color: var(--accent);
+      }
+
+      .photo-card {
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+      }
+
+      .photo-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .heart.pulse {
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.9;
+        }
+        50% {
+          transform: scale(1.3);
+          opacity: 1;
+        }
+      }
+
+      .code-block {
+        background: #fff5f8;
+        border-left: 3px solid var(--accent);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+      }
+
+      /* =====================
+     MOBILE & TABLET FIXES
+     ===================== */
+      @media (max-width: 992px) {
+        h1 {
+          font-size: 2.2rem;
+        }
+        .panel {
+          height: 70vh;
+        }
+        .masonry-item img {
+          height: 260px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          font-size: 0.95rem;
+        }
+        .hero {
+          min-height: 85vh;
+          padding: 3rem 1rem;
+        }
+        .hero h1 {
+          font-size: 2rem;
+        }
+        .panel {
+          height: 60vh;
+          background-position: center;
+        }
+        .panel .panel-caption {
+          padding: 1.25rem;
+          width: 100%;
+          font-size: 1rem;
+        }
+        .poetic {
+          font-size: 1rem;
+          margin: 1rem 0;
+        }
+        .masonry {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.75rem;
+        }
+        .masonry-item img {
+          height: auto;
+          aspect-ratio: 3 / 4;
+          object-fit: contain;
+        }
+        .carousel-item img {
+          aspect-ratio: 16 / 9;
+          object-fit: contain;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero {
+          min-height: 75vh;
+          padding: 2rem 1rem;
+        }
+        .hero h1 {
+          font-size: 1.75rem;
+          line-height: 1.1;
+        }
+        .hero p.lead {
+          font-size: 1rem;
+        }
+        section {
+          padding: 3rem 1rem;
+        }
+        .panel {
+          height: 50vh;
+        }
+        .masonry {
+          grid-template-columns: 1fr;
+        }
+        .masonry-item img {
+          height: auto;
+          object-fit: contain;
+        }
+        .carousel-item img {
+          aspect-ratio: 16 / 9;
+          object-fit: contain;
+        }
+        .poetic {
+          font-size: 0.95rem;
+          margin: 0.75rem 0;
+        }
+        footer {
+          padding: 2rem 1rem;
+          font-size: 0.85rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="hearts" id="hearts"></div>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-content container">
+        <h1>Happy Birthday, Baby ♥</h1>
+        <p class="lead">
+          A journey through moments, memories,love and poetic whispers of the
+          heart.
+        </p>
+      </div>
+    </header>
+
+    <!-- TOGETHER PHOTO -->
+    <section aria-label="Together">
+      <div class="container-fluid p-0">
+        <div
+          class="panel"
+          style="background-image: url('image//together1.jpeg')"
+        >
+          <div class="panel-caption">
+            <h3>When laughter stitched our hearts together</h3>
+          </div>
+        </div>
+        <div class="poetic">“The way laughter fits between our moments.”</div>
+      </div>
+    </section>
+
+    <!-- SOLO PHOTO -->
+    <section aria-label="Solo">
+      <div class="container-fluid p-0">
+        <div class="panel" style="background-image: url('image/solo_main.jpg')">
+          <div class="panel-caption">
+            <h3>Your smile — my forever sunrise</h3>
+          </div>
+        </div>
+        <div class="poetic">“Some memories don’t fade — they glow.”</div>
+      </div>
+    </section>
+
+    <!-- WISHES SECTION -->
+    <section id="wishes" class="py-5">
+      <div class="container">
+        <h2 class="section-title mb-3">Birthday Wishes</h2>
+        <div class="row g-4">
+          <!-- Wish List -->
+          <div class="col-md-6">
+            <div class="p-4 bg-white rounded-4 shadow-sm photo-card">
+              <h5 class="mb-3 text-accent">Today I wish for you:</h5>
+              <ul class="mb-3">
+                <li>Big laughter every day</li>
+                <li>Dreams that always find you</li>
+                <li>Slow mornings and wild adventures</li>
+              </ul>
+              <p class="mt-3 text-muted">
+                <span class="heart pulse text-accent">♥</span> — You make my
+                world better.
+              </p>
+            </div>
+          </div>
+
+          <!-- Interactive Notes -->
+          <div class="col-md-6">
+            <div class="p-4 bg-white rounded-4 shadow-sm photo-card">
+              <h5 class="mb-2 text-accent">Open when you need to smile</h5>
+              <p class="small text-muted">
+                Click a button to reveal a little note 💌
+              </p>
+              <div class="mt-3">
+                <button
+                  class="btn btn-sm btn-outline-primary me-2"
+                  onclick="showNote(0)"
+                >
+                  Note 1
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-primary me-2"
+                  onclick="showNote(1)"
+                >
+                  Note 2
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  onclick="showNote(2)"
+                >
+                  Note 3
+                </button>
+              </div>
+              <div id="noteArea" class="mt-3 code-block text-accent fst-italic">
+                // Click a note to reveal
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIX SOLO & CANDID -->
+    <section class="bg-light">
+      <h2 class="section-title">In Your Own Light</h2>
+      <div class="masonry">
+        <div class="masonry-item">
+          <img src="image/solo1.jpg" alt="solo 1" />
+          <div class="poetic">
+            “Little things, quiet smiles, endless warmth.”
+          </div>
+        </div>
+        <div class="masonry-item">
+          <img src="image/solo2.jpg" alt="solo 2" />
+          <div class="poetic">
+            “Love isn’t loud — it’s the comfort that never leaves.”
+          </div>
+        </div>
+        <div class="masonry-item">
+          <img src="image/solo3.jpg" alt="solo 3" />
+          <div class="poetic">
+            “Two hearts, one rhythm — quiet but infinite.”
+          </div>
+        </div>
+        <div class="masonry-item">
+          <img src="image/solo4.jpg" alt="solo 4" />
+          <div class="poetic">“In a world full of noise, you’re my calm.”</div>
+        </div>
+        <div class="masonry-item">
+          <img src="image/solo5.jpg" alt="solo 5" />
+          <div class="poetic">
+            “We weren’t written in code — we were written in constellations.”
+          </div>
+        </div>
+        <div class="masonry-item">
+          <img src="image/solo6.jpg" alt="solo 6" />
+          <div class="poetic">
+            “Your light lingers — even when miles apart.”
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COUPLE SLIDESHOW -->
+
+    <section>
+      <div class="container">
+        <h2 class="section-title">Our Moments Together</h2>
+        <div id="memCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img
+                src="image/couple1.jpg"
+                class="d-block w-100"
+                alt="couple 1"
+              />
+            </div>
+
+            <div class="carousel-item">
+              <img
+                src="image/couple2.jpg"
+                class="d-block w-100"
+                alt="couple 2"
+              />
+            </div>
+
+            <div class="carousel-item">
+              <img
+                src="image/couple3.jpg"
+                class="d-block w-100"
+                alt="couple 3"
+              />
+            </div>
+
+            <div class="carousel-item">
+              <img
+                src="image/couple4.jpg"
+                class="d-block w-100"
+                alt="couple 4"
+              />
+            </div>
+
+            <div class="carousel-item">
+              <img
+                src="image/couple5.jpg"
+                class="d-block w-100"
+                alt="couple 5"
+              />
+            </div>
+          </div>
+
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#memCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Prev</span>
+          </button>
+
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#memCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <div class="poetic mt-4">
+          “Some love stories are written in stars — ours glows in every
+          heartbeat.”
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="small text-muted">
+          Made with love — replace the image paths with your own photos and
+          enjoy your poetic journey together.
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Birthday note messages
+      const notes = [
+        "“The way laughter fits between our moments.”",
+        "“Every laugh we share writes a little story of us.”",
+        "“You’re lucky, you know? Loving me is the best blessing you’ve got.”",
+      ];
+
+      function showNote(index) {
+        const noteArea = document.getElementById("noteArea");
+        noteArea.textContent = notes[index];
+        noteArea.style.opacity = 0;
+        setTimeout(() => {
+          noteArea.style.opacity = 1;
+        }, 150);
+      }
+
+      const reveals = document.querySelectorAll(".poetic");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("show");
+          });
+        },
+        { threshold: 0.12 }
+      );
+      reveals.forEach((r) => observer.observe(r));
+
+      // floating hearts
+      const hearts = document.getElementById("hearts");
+      function makeHearts() {
+        for (let i = 0; i < 10; i++) {
+          const el = document.createElement("div");
+          el.className = "heart";
+          el.style.left = Math.random() * 100 + "%";
+          el.style.fontSize = 12 + Math.random() * 26 + "px";
+          el.style.animationDuration = 6 + Math.random() * 6 + "s";
+          el.style.top = 70 + Math.random() * 30 + "%";
+          el.textContent = "❤";
+          hearts.appendChild(el);
+          setTimeout(() => el.remove(), 12000);
+        }
+      }
+      setInterval(makeHearts, 2200);
+      makeHearts();
+
+      // parallax
+      const panels = document.querySelectorAll(".panel");
+      function handleParallax() {
+        panels.forEach((p) => {
+          const speed = 0.3;
+          const rect = p.getBoundingClientRect();
+          const y = rect.top;
+          p.style.backgroundPosition = `center ${-y * speed}px`;
+        });
+      }
+      window.addEventListener("scroll", handleParallax);
+      handleParallax();
+    </script>
+  </body>
+</html>
